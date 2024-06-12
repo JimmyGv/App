@@ -18,7 +18,11 @@ const LoginScreen = ({navigation}) => {
 
     const handleAccount = () => {
       navigation.navigate('Register')
-  };
+    };
+
+    const handleForgot = () =>{
+      navigation.navigate('Menu')
+    }
   
     return (
       <View style={Styles.container}>
@@ -36,7 +40,7 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry
         />
         <ButtonComponent onPress={handleLogin} txtBtn={"Login"}/>
-        <ForgotPasswordComponent />
+        <ForgotPasswordComponent onPress={handleForgot} />
         <NoAccountComponent onPress={handleAccount}/>
       </View>
     );

@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-const menu_inicio = () => {
+const Menu_inicio = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen} options={{tabBarIcon:({color,size}) =>(<MaterialCommunityIcons name="home" color={color} size={size} />),}} />
@@ -19,4 +19,4 @@ const menu_inicio = () => {
   );
 };
 
-export default menu_inicio;
+export default Menu_inicio;

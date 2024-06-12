@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import Styles from './styles';
 
-const ForgotPasswordComponent = () => {
+const ForgotPasswordComponent = ({onPress}) => {
   return (
-    <Text style={Styles.forgotPassword}>Forgot your password?</Text>
+    <TouchableOpacity onPress={onPress}>
+      <Text style={Styles.forgotPassword}>Forgot your password?</Text>
+    </TouchableOpacity>
   );
 };
 

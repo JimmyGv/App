@@ -4,6 +4,7 @@ import DropdownList from '../components/dropdownbox';
 import Styles from '../components/styles';
 import TextInputComponent from '../components/TextInputs';
 import ButtonComponent from '../components/button';
+import CameraComponent from '../components/Camera';
 
 const AddVehicleScreen = ({navigation}) => {
     const [selectedOption, setSelected] = React.useState(null);
@@ -35,6 +36,7 @@ const AddVehicleScreen = ({navigation}) => {
                 onChangeText={setVehicleName}
                 value={vehiclename}
             />
+            <CameraComponent/>
             <ButtonComponent onPress={handleBtn} txtBtn={'Add Vehicle'}/>
         </View>
     );

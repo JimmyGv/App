@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react";
 import * as MailComposer from "expo-mail-composer";
 
-const SendMail = () =>{
+const SendMail = ({mailToSend}) =>{
     const [isAvailable, setIsAvailable ] = useState(false);
     
     useEffect (() => {
@@ -18,7 +18,6 @@ const SendMail = () =>{
             
             subject: "Verificacion de correo",
             body: "Por favor verifique su correo para poder acceder a la aplicacion",
-            recipients: ["tmp_jgonzalez@accitesz.com"]
             
         });
     }

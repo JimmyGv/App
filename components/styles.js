@@ -1,6 +1,32 @@
 import { StyleSheet } from "react-native";
 
 const Styles = StyleSheet.create({
+    containerCamera: {
+      flex: 1,
+    },
+    camera: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    buttonContainerCamera: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginBottom: 20,
+      paddingHorizontal: 20,
+    },
+    buttonCamera: {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      padding: 15,
+      paddingHorizontal: 20,
+      alignSelf: 'center',
+      margin: 20,
+    },
+    textCamera: {
+      fontSize: 18,
+      color: '#000',
+    },
     container: {
       flex: 1,
       alignItems: 'center',
@@ -51,8 +77,9 @@ const Styles = StyleSheet.create({
       color: '#0000FF', // Ajusta este color al de tu enlace
     },
     dropdown_container: {
-      width: '100%',
+      width: '90%',
       margin: 10,
+      
       alignItems: 'center'
       
     },
