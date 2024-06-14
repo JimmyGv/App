@@ -4,62 +4,86 @@ import axios from 'axios';
 import Styles from '../components/styles';
 import TextInputComponent from '../components/TextInputs';
 import ButtonComponent from '../components/button';
+import client from '../src/Application/client';
+
+const isValidObjField = (obj)=>{
+    return Object.values(obj).every(value => value.trim())
+}
+
+const updateError = ( error, stateUpdater)=>{
+    stateUpdater(error);
+    setTimeout(()=>{
+        stateUpdater('')
+
+    },2500)
+}
+
+const isValidEmail = (value)=>{
+    const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return regx.test(value)
+}
 
 const RegisterScreen = ({navigation}) => {
-    const [userEmail, setEmail] = React.useState('');
-    const [passwordAdd, setPasswordAdd] = React.useState('');
-    const [passwordAddConfirm, setPasswordAddConfirm] = React.useState('');
-    const [userUserName, setUserName] = React.useState('');
+    const [userInfo, setUserInfo] = React.useState({
+        name:'',
+        email:'',
+        password:'',
+        confirmPassword:''
+    });
 
-    const handleInput = async () => {
-        if (passwordAdd !== passwordAddConfirm) {
-            Alert.alert("Error", "Las contraseñas no coinciden");
-            return;
-        }
+    const [error, setError]=React.useState('')
 
-        try {
-            const response = await axios.post('http://localhost:3000/users/register', {
-                name: userUserName,
-                mail: userEmail,
-                password: passwordAdd
-            });
+    const {name, email,password, confirmPassword} = userInfo
 
-            if (response.status === 200) {
-                Alert.alert("Éxito", "Usuario registrado con éxito");
-                // Aquí puedes redirigir al usuario a la pantalla de inicio de sesión si lo deseas
-                navigation.navigate('Login');
-            } else {
-                Alert.alert("Error", "Hubo un problema al registrar el usuario");
-            }
-        } catch (error) {
-            console.error(error);
-            Alert.alert("Error", "Hubo un problema al registrar el usuario");
+    const handleOnchangeText = (value, fieldName) =>{
+        setUserInfo({...userInfo, [fieldName]:value});
+        console.log(userInfo)
+    }
+
+    const isValidForm =()=>{
+        if(!isValidObjField(userInfo)) return updateError('Required all fields', setError);
+        
+        if(!name.trim()|| name.length <3) return updateError('Invalid name', setError);
+
+        if(!isValidEmail(email)) return updateError('Invalid email', setError);
+        
+        if(!password.trim() || password.length < 8) return updateError('Invalid password must be 8 characters', setError);
+
+        if(password !== confirmPassword) return updateError('The passwords does not match', setError);
+
+        return true
+    }   
+
+    const handleInput = ()=>{
+        if(isValidForm){
+            console.log(userInfo)
         }
     }
 
     return (
         <View style={Styles.container}>
+            {error ? (<Text  style= {{color:'red', fontSize:14, textAlign:'center'}} > {error}</Text>):null}
             <Text>View to Register User</Text>
             <TextInputComponent
                 placeholder="User Name Address"
-                onChangeText={setUserName}
-                value={userUserName}
+                onChangeText={(value)=> handleOnchangeText(value,'name')}
+                value={name}
             />
             <TextInputComponent
                 placeholder="Email Address"
-                onChangeText={setEmail}
-                value={userEmail}
+                onChangeText={(value)=> handleOnchangeText(value,'email')}
+                value={email}
             />
             <TextInputComponent
                 placeholder="Password Address"
-                onChangeText={setPasswordAdd}
-                value={passwordAdd}
+                onChangeText={(value)=> handleOnchangeText(value,'password')}
+                value={password}
                 secureTextEntry
             />
             <TextInputComponent
                 placeholder="Confirm Password"
-                onChangeText={setPasswordAddConfirm}
-                value={passwordAddConfirm}
+                onChangeText={(value)=> handleOnchangeText(value,'confirmPassword')}
+                value={confirmPassword}
                 secureTextEntry
             />
             <ButtonComponent onPress={handleInput} txtBtn={"Register me"}/>
