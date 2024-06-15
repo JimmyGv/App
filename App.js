@@ -8,18 +8,19 @@ export default function App() {
   const fetchApi = async()=>{
 
     try {
-      const res = await axios.get('http://localhost:3000/')
+      const res = await axios.get('http://192.168.0.36:3000/')
       console.log(res.data)
       
     } catch (error) {
       console.log(error)
     }
-
-    useEffect(()=>{
-      fetchApi();
-
-    },[])
   } 
+
+  useEffect(()=>{
+    fetchApi()
+
+  },[])
+
   return (
     
     <NavigationContainer>

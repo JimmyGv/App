@@ -28,10 +28,6 @@ const ManualScreen = () => {
         { key:'4', value: 'Cambio de bateria' },
         { key:'5', value:'Cambio de frenos' },
         { key:'6', value:'Cambio del filtro de aire'},
-        { key:'7', value: 'Cambio del liquido de frenos' },
-        { key:'8', value:'Alineacion y balanceo' },
-        { key:'9', value:'Cambio de la banda de tiempo'},
-        { key:'10', value:'Cambio de liquido de transmision'},
     ]
 
     const handleOptionSelect2 = (option1) => {

@@ -1,14 +1,9 @@
 import React from 'react';
 import { View, Text, Alert } from 'react-native';
-import axios from 'axios';
 import Styles from '../components/styles';
 import TextInputComponent from '../components/TextInputs';
 import ButtonComponent from '../components/button';
 import client from '../src/Application/client';
-
-const isValidObjField = (obj)=>{
-    return Object.values(obj).every(value => value.trim())
-}
 
 const updateError = ( error, stateUpdater)=>{
     stateUpdater(error);
@@ -18,10 +13,6 @@ const updateError = ( error, stateUpdater)=>{
     },2500)
 }
 
-const isValidEmail = (value)=>{
-    const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    return regx.test(value)
-}
 
 const RegisterScreen = ({navigation}) => {
     const [userInfo, setUserInfo] = React.useState({
@@ -37,32 +28,31 @@ const RegisterScreen = ({navigation}) => {
 
     const handleOnchangeText = (value, fieldName) =>{
         setUserInfo({...userInfo, [fieldName]:value});
-        console.log(userInfo)
-    }
+        //console.log(userInfo)
+    }  
 
-    const isValidForm =()=>{
-        if(!isValidObjField(userInfo)) return updateError('Required all fields', setError);
-        
-        if(!name.trim()|| name.length <3) return updateError('Invalid name', setError);
+    const handleInput = async ()=>{
+        try {
+            const res = await client.post('/users/add', { ...userInfo });
+            console.log(res.data.success);
 
-        if(!isValidEmail(email)) return updateError('Invalid email', setError);
-        
-        if(!password.trim() || password.length < 8) return updateError('Invalid password must be 8 characters', setError);
-
-        if(password !== confirmPassword) return updateError('The passwords does not match', setError);
-
-        return true
-    }   
-
-    const handleInput = ()=>{
-        if(isValidForm){
-            console.log(userInfo)
+            if (res.data.success ==true) {
+                updateError("The user was created successfully", setError);
+                setTimeout(() => {
+                    navigation.navigate('Login');
+                }, 2500); // Redirigir después de mostrar el mensaje de éxito
+            } else {
+                updateError(res.data.message, setError);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            updateError('An unexpected error occurred. Please try again.', setError);
         }
     }
 
     return (
         <View style={Styles.container}>
-            {error ? (<Text  style= {{color:'red', fontSize:14, textAlign:'center'}} > {error}</Text>):null}
+            {error ? (<Text  style= {{color:'blue', fontSize:14, textAlign:'center'}} > {error}</Text>):null}
             <Text>View to Register User</Text>
             <TextInputComponent
                 placeholder="User Name Address"

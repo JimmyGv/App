@@ -28,7 +28,7 @@ const Styles = StyleSheet.create({
       color: '#000',
     },
     container: {
-      flex: 1,
+      flexGrow: 1,
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#F0F0F0', // Ajusta este color al de tu fondo
@@ -52,9 +52,21 @@ const Styles = StyleSheet.create({
       marginBottom: 20,
     },
     input: {
-      height: 50,
+      height: 40,
+      width: '80%',
+      marginBottom: 10,
+      margin: 10,
+      borderWidth: 1,
+      borderColor: '#CCCCCC',
+      padding: 10,
+      borderRadius: 5,
+    },
+    inputToOthers: {
+      height: 150,
       width: '80%',
       margin: 10,
+      marginBottom: 10,
+      textAlignVertical: 'top',
       borderWidth: 1,
       borderColor: '#CCCCCC',
       padding: 10,

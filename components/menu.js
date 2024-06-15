@@ -5,6 +5,7 @@ import IndividualScreen from '../views/IndividualScreen';
 import ManualScreen from '../views/Manual';
 import AddVehicleScreen from '../views/AddVehicle';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import VehicleScrn from '../views/Vehicles';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,7 @@ const Menu_inicio = () => {
       <Tab.Screen name="Add Vehicle" component={AddVehicleScreen} options={{tabBarIcon:({color,size}) =>(<MaterialCommunityIcons name="car" color={color} size={size} />),}} />
       <Tab.Screen name="Changes & Reports" component={IndividualScreen} options={{tabBarIcon:({color,size}) =>(<MaterialCommunityIcons name="engine-outline" color={color} size={size} />),}} />
       <Tab.Screen name="Manual" component={ManualScreen} options={{tabBarIcon:({color,size}) =>(<MaterialCommunityIcons name="book-open-page-variant-outline" color={color} size={size} />),}} />
+      <Tab.Screen name="Vehicles" component={VehicleScrn} options={{tabBarIcon:({color,size})=>(<MaterialCommunityIcons name='car-convertible' color={color} size={size}/>),}}/>
     </Tab.Navigator>
   );
 };

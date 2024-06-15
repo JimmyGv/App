@@ -23,7 +23,7 @@ const IndividualScreen = () => {
     return (
         <View style={Styles.container}>
             <Text>Screen Changes</Text>
-            <DropdownList options={options2} onSelect={handleOptionSelect2} textInput={"Seleccione una opcion"}/>
+            <DropdownList options={options2} onSelect={handleOptionSelect2} textInput={"Select an option"}/>
         </View>
     );
 };
