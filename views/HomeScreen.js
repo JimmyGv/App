@@ -13,36 +13,38 @@ const updateError = ( error, stateUpdater)=>{
 }
 
 const HomeScreen = () => {
-    const [selectedOption, setSelected] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
     const [error, setError] = useState('');
+    const [options, setOptions] = useState([]);
 
-    const hndleList = async () =>{
-        try{
+    useEffect(() => {
+        const fetchVehicles = async () => {
+          try {
             const response = await client.get('/vehicles');
             const data = response.data;
-            const options = data.map((item)=>{
-                return {label: item.name, value: item._id}
-            })
-                setSelected(options)
-        }catch(error){
-            updateError(error.message, setError)
-        }
-    }
-    const options = [
-        { key:'1', value: 'Mercedes' },
-        { key:'2', value:'Range Rover' },
-        { key:'3', value:'Mazda 3'},
-    ];
-
-    const handleOptionSelect = (option) => {
-        setSelected(option);
+            const options = data.map((item) => ({
+              label: item.name,
+              value: item._id,
+            }));
+            setOptions(options);
+          } catch (error) {
+            console.error('Error fetching vehicles:', error);
+            updateError(response.data.message,setError)
+          }
+        };
+    
+        fetchVehicles();
+      }, []);
+    
+      const handleOptionSelect = (option) => {
+        setSelectedOption(option);
         console.log('Opción seleccionada:', option);
         // Realiza cualquier acción adicional según sea necesario
-    };
+      };
 
     return (
         <View style={Styles.container}>
-            <Text>Welcome to HomeScreen</Text>
+            {error ? <Text  style= {{color:'blue', fontSize:14, textAlign:'center'}}>{error}</Text>:null}
             <DropdownList options={options} onSelect={handleOptionSelect} textInput={"Select a Vehicle"}/>
         </View>
     );
