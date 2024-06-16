@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import Styles from "../components/styles";
+
 const Login = ({ navigation }) => {
+  const {setIsLoggedIn} = useLoggin()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = () => {

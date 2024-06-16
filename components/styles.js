@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const Styles = StyleSheet.create({
     containerCamera: {
-      flex: 1,
+      flexGrow: 1,
     },
     camera: {
       flex: 1,
@@ -31,10 +31,10 @@ const Styles = StyleSheet.create({
       flexGrow: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#F0F0F0', // Ajusta este color al de tu fondo
+      backgroundColor: '#F0F0F0',
     },
     logoContainer: {
-      backgroundColor: '#FFFFFF', // Ajusta este color al de tu logo
+      backgroundColor: '#FFFFFF', 
       width: 100,
       height: 100,
       borderRadius: 50,
@@ -44,7 +44,7 @@ const Styles = StyleSheet.create({
     },
     logoText: {
       fontSize: 50,
-      color: '#0000FF', // Ajusta este color al de tu logo
+      color: '#0000FF',
     },
     title: {
       fontSize: 24,
@@ -73,7 +73,7 @@ const Styles = StyleSheet.create({
       borderRadius: 5,
     },
     button: {
-      backgroundColor: '#0000FF', // Ajusta este color al del botón en la imagen
+      backgroundColor: '#0000FF',
       padding: 15,
       borderRadius: 5,
       width: '80%',
@@ -86,14 +86,47 @@ const Styles = StyleSheet.create({
     },
     forgotPassword: {
       marginTop: 15,
-      color: '#0000FF', // Ajusta este color al de tu enlace
+      color: '#0000FF',
     },
     dropdown_container: {
-      width: '90%',
-      margin: 10,
       
-      alignItems: 'center'
+      width: '80%',
+      marginTop: 20,
+      height:40,
+      borderRadius: 5,
+      color:'while',
+      borderWidth: 1,
+      borderColor: '#ccc',
+      alignItems: 'center',
+      maxWidth:300,
       
+    },
+    dropdown_item: {
+      padding: 10,
+      backgroundColor: 'gray',
+      fontSize: 16,
+      color:'white',
+      marginHorizontal:10
+    },
+    containerFlatList: {
+      flex: 1,
+      padding: 20,
+      backgroundColor: '#fff',
+    },
+    flatListContainer: {
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 5,
+    },
+    flatListItem: {
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+    },
+    flatListItemText: {
+      fontSize: 16,
+      fontWeight: 'bold',
     },
   });
 

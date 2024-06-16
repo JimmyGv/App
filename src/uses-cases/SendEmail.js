@@ -1,13 +1,17 @@
-const HandleOpenGmail = () => {
-    const recipient = "tmp_jgonzalez@accitesz.com";
-    const subject = "Recovery password";
-    const body = "Hello I'd like to recovery my password\n\n" +
-      "My email to enter the app is this one\n\n" +
-      "Could you please help me with a temporal password?";
-    
-    const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+import React,{ createContext, useContext, useState } from "react";
 
-    Linking.openURL(mailtoUrl);
-  };
+const LogginContext = createContext();
 
-export default HandleOpenGmail;
+const LogginProvider =({children})=>{
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [profile,setProfile] = useState({})
+  return (<LogginContext.Provider value={{isLoggedIn,setIsLoggedIn, profile,setProfile }}>
+      {children}
+    </LogginContext.Provider>
+  )
+
+}
+
+export const useLoggin =()=>useContext(LogginContext)
+
+export default LogginProvider;

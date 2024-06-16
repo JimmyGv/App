@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import DropdownList from '../components/dropdownbox';
 import Styles from '../components/styles';
 import TextInputComponent from '../components/TextInputs';
@@ -15,10 +15,10 @@ const AddVehicleScreen = ({navigation}) => {
     }
 
     const options1 = [
-        { key:'1', value: 'Mercedes' },
-        { key:'2', value:'Range Rover' },
-        { key:'3', value:'Mazda 3'},
-        { key:'4', value: 'Honda Civic'}
+        { value:'1', label: 'Mercedes' },
+        { value:'2', label:'Range Rover' },
+        { value:'3', label:'Mazda 3'},
+        { value:'4', label: 'Honda Civic'}
     ];
 
     const handleOptionsSelect = (option) => {
@@ -28,7 +28,7 @@ const AddVehicleScreen = ({navigation}) => {
     };
 
     return (
-        <View style={Styles.container}>
+        <ScrollView style={{flexGrow:1,alignSelf:'center'}}>
             <Text>Screen AddVehicleScreen</Text>
             <DropdownList options={options1} onSelect={handleOptionsSelect} textInput={"Seleccione un vehiculo Disponible"}/>
             <TextInputComponent
@@ -38,7 +38,7 @@ const AddVehicleScreen = ({navigation}) => {
             />
             <CameraComponent/>
             <ButtonComponent onPress={handleBtn} txtBtn={'Add Vehicle'}/>
-        </View>
+        </ScrollView>
     );
 };
 

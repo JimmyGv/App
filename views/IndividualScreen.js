@@ -7,11 +7,12 @@ const IndividualScreen = () => {
     const [selectedOption, setSelected] = React.useState(null);
 
     const options2 = [
-        { key:'1', value: 'Cambio de aceite' },
-        { key:'2', value:'Lenado de Gasolina' },
-        { key:'3', value:'Cambio de clutch'},
-        { key:'4', value:'Cambio de bateria'},
-        { key:'5', value:'Cambio de bujias'}
+        { value:'oilChange', label: 'Cambio de aceite' },
+        { value:'sparkPlugChange', label:'Cambio de bujias' },
+        { value:'airFilterChange', label:'Cambio de llantas'},
+        { value:'tyreChange', label: 'Cambio de bateria' },
+        { value:'bateryChange', label:'Cambio de frenos' },
+        { value:'breakChange', label:'Cambio del filtro de aire'},
     ];
 
     const handleOptionSelect2 = (option) => {
@@ -20,10 +21,24 @@ const IndividualScreen = () => {
         // Realiza cualquier acción adicional según sea necesario
     };
 
+    const handleEnter = () =>{
+        //console.log('Presionó Enter');
+    } 
+
+    const handleOnchangeText = ()=>{
+        //console.log('Cambio de texto');
+    }
+
     return (
         <View style={Styles.container}>
             <Text>Screen Changes</Text>
-            <DropdownList options={options2} onSelect={handleOptionSelect2} textInput={"Select an option"}/>
+            <DropdownList options={options2} onSelect={handleOptionSelect2} textInput={selectedOption}/>
+            <TextInputComponent
+                placeholder="Change date"
+                onChangeText={(value)=> handleOnchangeText(value,'dateChange')}
+                value={dateChange}
+            />
+            <ButtonComponent onPress={handleEnter} txtBtn={'Add change'}/>
         </View>
     );
 };

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import AppNavigator from './components/AppNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import axios from 'axios';
+import LogginProvider from './src/uses-cases/SendEmail';
 
 export default function App() {
 
@@ -22,9 +23,10 @@ export default function App() {
   },[])
 
   return (
-    
-    <NavigationContainer>
-      <AppNavigator/>
-    </NavigationContainer>
+    <LogginProvider>
+      <NavigationContainer>
+        <AppNavigator/>
+      </NavigationContainer>
+    </LogginProvider>
   );
 }

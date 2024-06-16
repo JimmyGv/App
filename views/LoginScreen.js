@@ -7,7 +7,7 @@ import ForgotPasswordComponent from '../components/ForgotPassword';
 import NoAccountComponent from '../components/NoAccount';
 import Styles from '../components/styles';
 import client from '../src/Application/client';
-
+import { useLoggin } from '../src/uses-cases/SendEmail';
 
 const updateError = ( error, stateUpdater)=>{
   stateUpdater(error);
@@ -19,6 +19,7 @@ const updateError = ( error, stateUpdater)=>{
 
 
 const LoginScreen = ({navigation}) => {
+    const {setIsLoggedIn, setProfile} = useLoggin()
     const [userInfo, setUserInfo] = useState({
       email:'',
       password:''
@@ -43,7 +44,9 @@ const LoginScreen = ({navigation}) => {
       if(res.data.success == false){
         updateError(res.data.message, setError);
       }else{
-        navigation.navigate('Menu')
+        setIsLoggedIn(true)
+        setProfile(res.data.user)
+        //navigation.navigate('Menu')
       }
         
     };
