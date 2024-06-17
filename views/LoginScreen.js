@@ -46,6 +46,7 @@ const LoginScreen = ({navigation}) => {
       }else{
         setIsLoggedIn(true)
         setProfile(res.data.user)
+        console.log(res.data.user)
         //navigation.navigate('Menu')
       }
         

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text,ScrollView } from 'react-native';
 import Styles from '../components/styles';
 import DropdownList from '../components/dropdownbox';
 import client from '../src/Application/client';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const updateError = (error, stateUpdater) => {
     stateUpdater(error);
@@ -41,7 +40,12 @@ const ManualScreen = () => {
     }, []);
 
     const options2 = [
-        666d8258f145148194b1c8a8
+        { value:'oilChange', label: 'Cambio de aceite' },
+        { value:'sparkPlugChange', label:'Cambio de bujias' },
+        { value:'airFilterChange', label:'Cambio de llantas'},
+        { value:'tyreChange', label: 'Cambio de bateria' },
+        { value:'bateryChange', label:'Cambio de frenos' },
+        { value:'breakChange', label:'Cambio del filtro de aire'},
     ]
 
     const handleOptionSelect = (option) => {

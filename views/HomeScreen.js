@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import DropdownList from '../components/dropdownbox';
 import Styles from '../components/styles';
 import client from '../src/Application/client';
@@ -19,7 +19,8 @@ const HomeScreen = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [error, setError] = useState('');
     const [options, setOptions] = useState([]);
-    
+
+
     useEffect(() => {
         const fetchVehicles = async () => {
           try {
@@ -44,16 +45,26 @@ const HomeScreen = () => {
         console.log('Opción seleccionada:', option);
         // Realiza cualquier acción adicional según sea necesario
       };
-
+      
+    const handleSave = () =>{
+      
+    }
     return (
         <View style={Styles.container}>
             <Text style={{ textAlign:'center',fontSize:14}}>Welcome {profile.name}</Text>
-            <Text style={Styles.title}>Select a Vehicle</Text>
+            {profile.avatar ? (
+                <Image source={{ uri: profile.avatar }} style={{width:300, height:300, borderRadius:30}} />
+            ) : (
+                <Text>No avatar available</Text>
+            )}
+            <Text style={{ textAlign:'center',fontSize:14}}>Email {profile.email}</Text>
+            <Text style={{textAlign:'center',fontSize:18}}>Select a Vehicle</Text>
             {error ? <Text  style= {{color:'blue', fontSize:14, textAlign:'center'}}>{error}</Text>:null}
-            <DropdownList options={options} onSelect={handleOptionSelect} textInput={selectedOption}/>
+            <ButtonComponent onPress={handleSave} txtBtn={'Save changes'}/>
             <ButtonComponent onPress={()=>setIsLoggedIn(false)} txtBtn={'Log Out'}/>
         </View>
     );
 };
 //<ButtonComponent onPress={setIsLoggedIn(false)} txtButton={'Log Out'}/>
+//<DropdownList options={options} onSelect={handleOptionSelect} textInput={selectedOption}/>
 export default HomeScreen;
