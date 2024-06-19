@@ -1,70 +1,110 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image } from 'react-native';
-import DropdownList from '../components/dropdownbox';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import Styles from '../components/styles';
 import client from '../src/Application/client';
 import { useLoggin } from '../src/uses-cases/SendEmail';
-import { useNavigation } from '@react-navigation/native';
+import SelectImage from '../components/SelectImage';
 import ButtonComponent from '../components/button';
-const updateError = ( error, stateUpdater)=>{
-    stateUpdater(error);
-    setTimeout(()=>{
-        stateUpdater('')
+import { decode } from 'base-64'; // Importa la función decode desde base-64
 
-    },2500)
-}
+const updateError = (error, stateUpdater) => {
+  stateUpdater(error);
+  setTimeout(() => {
+    stateUpdater('');
+  }, 2500);
+};
 
 const HomeScreen = () => {
-    const {setIsLoggedIn, profile} =useLoggin();
-    const [selectedOption, setSelectedOption] = useState('');
-    const [error, setError] = useState('');
-    const [options, setOptions] = useState([]);
+  const { setIsLoggedIn, profile } = useLoggin();
+  const [error, setError] = useState('');
+  const [updateUser, setUpdateUser] = useState({
+    name: profile.name,
+    email: profile.email,
+    avatar: profile.avatar || null,
+  });
 
+  const handleSave = async () => {
+    if (!updateUser.avatar) {
+      updateError('Please select an avatar', setError);
+    } else {
+      try {
+        // Decodifica la URI base64 y conviértela en un blob
+        const response = await fetch(updateUser.avatar);
+        const blob = await response.blob();
 
-    useEffect(() => {
-        const fetchVehicles = async () => {
-          try {
-            const response = await client.get('/vehicles');
-            const data = response.data;
-            const options = data.map((item) => ({
-              value: item._id,
-              label: item.name
-            }));
-            setOptions(options);
-          } catch (error) {
-            console.error('Error fetching vehicles:', error);
-            updateError('Failed to fetch vehicles. Please try again.', setError);
-          }
-        };
-    
-        fetchVehicles();
-      }, []);
-    
-      const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        console.log('Opción seleccionada:', option);
-        // Realiza cualquier acción adicional según sea necesario
-      };
-      
-    const handleSave = () =>{
-      
+        // Crea un objeto de archivo (File) a partir del blob
+        const file = new File([blob], 'avatar.png', { type: 'image/png' });
+
+        // Crea FormData y agrega el archivo
+        const formData = new FormData();
+        formData.append('profile', file);
+
+        // Realiza la petición POST al backend
+        const res = await client.post('/users/upload-profile', formData, {
+          headers: {
+            'Authorization': `Bearer ${profile.token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (res.data.success) {
+          updateError('The profile photo was updated successfully', setError);
+          // Actualiza el estado del usuario si es necesario
+        }
+      } catch (error) {
+        updateError('Unexpected error: ' + error.message, setError);
+      }
     }
-    return (
-        <View style={Styles.container}>
-            <Text style={{ textAlign:'center',fontSize:14}}>Welcome {profile.name}</Text>
-            {profile.avatar ? (
-                <Image source={{ uri: profile.avatar }} style={{width:300, height:300, borderRadius:30}} />
-            ) : (
-                <Text>No avatar available</Text>
-            )}
-            <Text style={{ textAlign:'center',fontSize:14}}>Email {profile.email}</Text>
-            <Text style={{textAlign:'center',fontSize:18}}>Select a Vehicle</Text>
-            {error ? <Text  style= {{color:'blue', fontSize:14, textAlign:'center'}}>{error}</Text>:null}
-            <ButtonComponent onPress={handleSave} txtBtn={'Save changes'}/>
-            <ButtonComponent onPress={()=>setIsLoggedIn(false)} txtBtn={'Log Out'}/>
-        </View>
-    );
+  };  
+
+  const handleImageTaken = (value) => {
+    setUpdateUser({ ...updateUser, avatar: value });
+    console.log(value)
+  };
+
+  return (
+    <View style={Styles.container}>
+      <Text style={styles.welcomeText}>Welcome {profile.name}</Text>
+      {profile.avatar ? (
+        <Image source={{ uri: updateUser.avatar }} style={styles.avatarImage} />
+      ) : (
+         <Text>No avatar available</Text>
+      )}
+      <SelectImage onImageTaken={handleImageTaken} />
+      <Text style={styles.emailText}>Email {profile.email}</Text>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      <ButtonComponent onPress={handleSave} txtBtn={'Save profile photo'} />
+      <ButtonComponent onPress={() => setIsLoggedIn(false)} txtBtn={'Log Out'} />
+    </View>
+  );
 };
-//<ButtonComponent onPress={setIsLoggedIn(false)} txtButton={'Log Out'}/>
-//<DropdownList options={options} onSelect={handleOptionSelect} textInput={selectedOption}/>
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  welcomeText: {
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  avatarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginTop: 20,
+  },
+  emailText: {
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  errorText: {
+    color: 'blue',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+});
+
 export default HomeScreen;
+

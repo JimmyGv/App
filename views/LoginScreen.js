@@ -19,7 +19,7 @@ const updateError = ( error, stateUpdater)=>{
 
 
 const LoginScreen = ({navigation}) => {
-    const {setIsLoggedIn, setProfile} = useLoggin()
+    const {setIsLoggedIn, setProfile, profile} = useLoggin()
     const [userInfo, setUserInfo] = useState({
       email:'',
       password:''
@@ -45,9 +45,12 @@ const LoginScreen = ({navigation}) => {
         updateError(res.data.message, setError);
       }else{
         setIsLoggedIn(true)
-        setProfile(res.data.user)
-        console.log(res.data.user)
-        //navigation.navigate('Menu')
+        setProfile(prevProfile => ({
+          ...prevProfile, 
+          ...res.data.user, 
+          token: res.data.token 
+        }));
+        navigation.navigate('Menu')
       }
         
     };

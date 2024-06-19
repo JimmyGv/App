@@ -5,7 +5,6 @@ import TextInputComponent from '../components/TextInputs';
 import ButtonComponent from '../components/button';
 import client from '../src/Application/client';
 import TextInputComponenttoOthers from '../components/OtherTextInput';
-import SelectImage from '../components/SelectImage';
 
 const updateError = (error, stateUpdater) => {
     stateUpdater(error);
@@ -82,9 +81,25 @@ const VehicleScrn = ({ navigation }) => {
         }
     };
 
-    const handleImageTaken = (uri) => {
-        setVehicleInfo({ ...vehicleInfo, avatar: uri });
-    };
+
+    const handleSave = async () =>{
+        if (!pwrdSecret) {
+            updateError('Please enter password', setError);
+            return;
+        }
+        
+        if (pwrdSecret.trim() !== "Admin01James") {
+            updateError('Invalid password', setError);
+            return;
+        }
+
+        try {
+            const res = await client.post('/') 
+        } catch (error) {
+            updateError('Someting went wrong ' + error.message, setError)
+        }
+
+    }
 
     return (
         <ScrollView contentContainerStyle={Styles.container}>
@@ -109,7 +124,6 @@ const VehicleScrn = ({ navigation }) => {
                                 tyreChange: item.tyreChange,
                                 bateryChange: item.bateryChange,
                                 breakChange: item.breakChange,
-                                avatar: item.avatar || null,
                             });
                         }}>
                         <Text style={Styles.flatListItemText}>{item.name} - {item.model}</Text>
@@ -117,15 +131,6 @@ const VehicleScrn = ({ navigation }) => {
                 )}
                 contentContainerStyle={Styles.flatListContainer}
             />
-
-            {vehicleInfo.avatar && (
-                <Image
-                    source={{ uri: `data:image/jpeg;base64,${vehicleInfo.avatar.base64()}` }}
-                    style={{ width: 100, height: 100, alignSelf: 'center', marginTop: 20 }}
-                />
-            )}
-
-            <SelectImage onImageTaken={handleImageTaken} />
 
             <TextInputComponent
                 placeholder="Vehicle name"
@@ -187,6 +192,7 @@ const VehicleScrn = ({ navigation }) => {
                 secureTextEntry
             />
             <ButtonComponent onPress={handleBtn} txtBtn={'Add Vehicle'} />
+            <ButtonComponent onPress={handleSave} txtBtn={'Save changes'} />
         </ScrollView>
     );
 };
